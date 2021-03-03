@@ -13,4 +13,4 @@ The main branch is based on [MMdetection](https://github.com/open-mmlab/mmdetect
 
 ## Installation
 
-Please refer to [get_started.md](docs/get_started.md) for installation.
+Please refer to [getting_started.md](docs/getting_started.md) for installation.
