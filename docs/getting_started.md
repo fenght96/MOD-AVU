@@ -14,40 +14,15 @@ mmdetection
 ├── tools
 ├── configs
 ├── data
-│   ├── coco
-│   │   ├── annotations
-│   │   ├── train2017
-│   │   ├── val2017
-│   │   ├── test2017
-│   ├── cityscapes
-│   │   ├── annotations
-│   │   ├── leftImg8bit
-│   │   │   ├── train
-│   │   │   ├── val
-│   │   ├── gtFine
-│   │   │   ├── train
-│   │   │   ├── val
-│   ├── VOCdevkit
-│   │   ├── VOC2007
-│   │   ├── VOC2012
+│   ├── MOD-AVU
+
 
 ```
 
-The cityscapes annotations have to be converted into the coco format using `tools/convert_datasets/cityscapes.py`:
-
-```shell
-pip install cityscapesscripts
-python tools/convert_datasets/cityscapes.py ./data/cityscapes --nproc 8 --out-dir ./data/cityscapes/annotations
-```
-
-Currently the config files in `cityscapes` use COCO pre-trained weights to initialize.
-You could download the pre-trained models in advance if network is unavailable or slow, otherwise it would cause errors at the beginning of training.
-
-For using custom datasets, please refer to [Tutorials 2: Adding New Dataset](tutorials/new_dataset.md).
 
 ## Inference with pretrained models
 
-We provide testing scripts to evaluate a whole dataset (COCO, PASCAL VOC, Cityscapes, etc.),
+We provide testing scripts to evaluate a whole dataset (MOD-AVU),
 and also some high-level apis for easier integration to other projects.
 
 ### Test a dataset
