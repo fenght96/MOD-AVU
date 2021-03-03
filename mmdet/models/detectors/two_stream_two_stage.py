@@ -49,9 +49,9 @@ class TwoStreamTwoStageDetector(BaseDetector):
         self.train_cfg = train_cfg
         self.test_cfg = test_cfg
 
-        #self.fc_rgb = nn.Linear(neck['in_channels'][-1],16)
-        #self.fc_trm = nn.Linear(neck['in_channels'][-1],16)
-        #self.fc = nn.Linear(32,2)
+        self.fc_rgb = nn.Linear(neck['in_channels'][-1],16)
+        self.fc_trm = nn.Linear(neck['in_channels'][-1],16)
+        self.fc = nn.Linear(32,2)
 
         self.init_weights(pretrained=pretrained)
 
@@ -86,16 +86,16 @@ class TwoStreamTwoStageDetector(BaseDetector):
             self.rpn_head.init_weights()
         if self.with_roi_head:
             self.roi_head.init_weights(pretrained)
-        #xavier_init(self.fc_rgb, distribution='uniform')
-        #xavier_init(self.fc_trm, distribution='uniform')
-        #xavier_init(self.fc, distribution='uniform')
+        xavier_init(self.fc_rgb, distribution='uniform')
+        xavier_init(self.fc_trm, distribution='uniform')
+        xavier_init(self.fc, distribution='uniform')
 
     def extract_feat(self, img):
         """Directly extract features from the backbone+neck."""
         img_1, img_2 = torch.split(img, 3, dim=1)
         x_1 = self.backbone_1(img_1)
         x_2 = self.backbone_2(img_2)
-        '''
+       
         bs,c,_,_ = x_1[-1].shape
         
         w_1 = F.relu(torch.mean(x_1[-1].view(bs,c,-1),-1)).view(bs,c)
@@ -105,8 +105,8 @@ class TwoStreamTwoStageDetector(BaseDetector):
         w_all = F.softmax(w_all,dim=1)
         #pdb.set_trace()
         x = tuple([w_all[:,0].view(bs,1,1,1) * x_1[i] + w_all[:,1].view(bs,1,1,1) * x_2[i] for i in range(min(len(x_1),len(x_2)))])
-        '''
-        x = tuple([0.5 * x1 + 0.5 * x2 for x1, x2 in zip(x_1, x_2)])
+        
+        # x = tuple([0.5 * x1 + 0.5 * x2 for x1, x2 in zip(x_1, x_2)])
         if self.with_neck:
             x = self.neck(x)
         return x
